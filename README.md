@@ -138,6 +138,10 @@ namespace BlazorMySQLMinimalAPI.Models
 
 ## 7. Create ApplicationDbContext
 
+This code defines the database context for Entity Framework Core, mapping the Employee entity to the Employees table in the MySQL database
+
+The ApplicationDbContext class is used to interact with the database, perform CRUD operations, and manage database configurations
+
 **ApplicationDbContext.cs**
 
 ```csharp
