@@ -114,7 +114,6 @@ This is the modified App.razor file:
 </html>
 ```
 
-
 ## 5. Create Data and Models folders
 
 ![image](https://github.com/user-attachments/assets/e52950f3-062a-4d8f-a358-1d2c3cd33bb4)
@@ -163,6 +162,31 @@ namespace BlazorMySQLMinimalAPI.Data
 ```
 
 ## 8. Modify middleware(Program.cs)
+
+We include these two functionalities:
+
+The **HttpClient** is registered so that it can be injected into Blazor components to make HTTP requests
+
+By setting the BaseAddress, you ensure that all outgoing requests automatically target the correct API or server location
+
+```csharp
+builder.Services.AddScoped(sp =>
+{
+    var navigationManager = sp.GetRequiredService<NavigationManager>();
+    return new HttpClient { BaseAddress = new Uri(navigationManager.BaseUri) };
+});
+```
+
+And also this setup configures the Entity Framework Core to work with a MySQL database, allowing the application to interact with the database (for example, through CRUD operations) using the ApplicationDbContext
+
+```csharp
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(8, 0, 38))));
+```
+
+See the whole code:
+
 
 **Program.cs**
 
