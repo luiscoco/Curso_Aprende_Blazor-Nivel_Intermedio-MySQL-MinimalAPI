@@ -330,9 +330,9 @@ app.Run();
 }
 ```
 
-
 ## 11. Run the application and view the results
 
+![image](https://github.com/user-attachments/assets/c5ac97b1-46ab-4481-9682-c0b7dcd8c129)
 
 
 
