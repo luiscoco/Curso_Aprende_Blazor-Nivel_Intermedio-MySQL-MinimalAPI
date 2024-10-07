@@ -177,7 +177,7 @@ builder.Services.AddScoped(sp =>
 });
 ```
 
-And also this setup configures the Entity Framework Core to work with a MySQL database, allowing the application to interact with the database (for example, through CRUD operations) using the ApplicationDbContext
+And also this setup **configures the Entity Framework Core** to work with a **MySQL database**, allowing the application to interact with the database (for example, through CRUD operations) using the ApplicationDbContext
 
 ```csharp
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
