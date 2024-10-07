@@ -185,8 +185,63 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     new MySqlServerVersion(new Version(8, 0, 38))));
 ```
 
-See the whole code:
+We ensure the **database is created**:
 
+```csharp
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
+```
+
+We also define the **Minimal APIs endpoints** with this code:
+
+```csharp
+app.MapGet("/api/employees", async (ApplicationDbContext db) =>
+{
+    return await db.Employees.ToListAsync();
+});
+
+app.MapGet("/api/employees/{id}", async (int id, ApplicationDbContext db) =>
+{
+    var employee = await db.Employees.FindAsync(id);
+    if (employee == null) return Results.NotFound();
+    return Results.Ok(employee);
+});
+
+app.MapPost("/api/employees", async (Employee employee, ApplicationDbContext db) =>
+{
+    db.Employees.Add(employee);
+    await db.SaveChangesAsync();
+    return Results.Created($"/api/employees/{employee.Id}", employee);
+});
+
+app.MapPut("/api/employees/{id}", async (int id, Employee updatedEmployee, ApplicationDbContext db) =>
+{
+    var employee = await db.Employees.FindAsync(id);
+    if (employee == null) return Results.NotFound();
+
+    employee.Name = updatedEmployee.Name;
+    employee.Position = updatedEmployee.Position;
+    employee.Salary = updatedEmployee.Salary;
+
+    await db.SaveChangesAsync();
+    return Results.Ok(employee);
+});
+
+app.MapDelete("/api/employees/{id}", async (int id, ApplicationDbContext db) =>
+{
+    var employee = await db.Employees.FindAsync(id);
+    if (employee == null) return Results.NotFound();
+
+    db.Employees.Remove(employee);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+```
+
+See the whole code:
 
 **Program.cs**
 
@@ -407,6 +462,8 @@ app.Run();
 ```
 
 ## 10. Modify appsettings.json to include the database string connection
+
+In the appsettings.json file we include the connection string for MySQL database:
 
 **appsettings.json**
 
