@@ -65,6 +65,21 @@ We verify in MySQL the created database
 
 ## 2. Create Blazor Web Application with Visual Studio 2022 Community Edition
 
+Run Visual Studio 2022 Community Edition and create a new project
+
+![image](https://github.com/user-attachments/assets/5bbf5e8d-f56c-441a-8333-321b95a994c6)
+
+Select the Blazor Web App project template
+
+![image](https://github.com/user-attachments/assets/5ce159a1-84ef-4674-9e9e-b3c34f3f729a)
+
+Input the project name and set the project location in the hard disk
+
+![image](https://github.com/user-attachments/assets/69f7bcb9-f58f-4745-bd5d-9d3d003d7675)
+
+Leave the default values and be sure to select the .NET 9 framework and press the create button
+
+![image](https://github.com/user-attachments/assets/9cb8b435-2fe3-4be6-9d48-9f1c57560c46)
 
 ## 3. Add Nuget packages
 
