@@ -2,6 +2,66 @@
 
 ## 1. Download and Install MySQL (Oracle database)
 
+For downloading MySQL navigate to this URL: 
+
+https://dev.mysql.com/downloads/installer/
+
+![image](https://github.com/user-attachments/assets/168e9ed5-3f84-43fd-b891-6332b53f1c8e)
+
+Click on the Donwload button and double click on the donwloaded file
+
+![image](https://github.com/user-attachments/assets/6814496d-b48a-4615-aba1-d01152170ad4)
+
+Install MySQL and set the root user password
+
+First we **create a new database** 
+
+```
+CREATE DATABASE MinimalApiDb;
+
+USE MinimalApiDb;
+```
+
+Then we **create a new table**
+
+```
+CREATE TABLE Employees (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Position VARCHAR(100) NOT NULL,
+    Salary DECIMAL(10, 2) NOT NULL
+);
+```
+
+and **populate with data**
+
+```
+USE MinimalApiDb;
+
+-- Insert Employee 1
+INSERT INTO Employees (Name, Position, Salary)
+VALUES ('John Doe', 'Software Engineer', 75000.00);
+
+-- Insert Employee 2
+INSERT INTO Employees (Name, Position, Salary)
+VALUES ('Jane Smith', 'Project Manager', 85000.00);
+
+-- Insert Employee 3
+INSERT INTO Employees (Name, Position, Salary)
+VALUES ('Alice Johnson', 'QA Engineer', 65000.00);
+
+-- Insert Employee 4
+INSERT INTO Employees (Name, Position, Salary)
+VALUES ('Robert Brown', 'DevOps Engineer', 78000.00);
+
+-- Insert Employee 5
+INSERT INTO Employees (Name, Position, Salary)
+VALUES ('Emily Davis', 'HR Manager', 70000.00);
+```
+
+We verify in MySQL the created database
+
+![image](https://github.com/user-attachments/assets/6154b360-7a79-4776-83c0-4399a7dec9dd)
 
 ## 2. Create Blazor Web Application with Visual Studio 2022 Community Edition
 
