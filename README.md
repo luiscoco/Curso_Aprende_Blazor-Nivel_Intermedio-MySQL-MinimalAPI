@@ -78,6 +78,15 @@ Pomelo.EntityFrameworkCore.MySql
 
 ## 4. Add bootstrap 5 in App.razor
 
+Add these two lines for adding bootstrap 5:
+
+```
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+```
+
+This is the modified App.razor file:
+
 **App.razor**
 
 ```razor
@@ -108,6 +117,7 @@ Pomelo.EntityFrameworkCore.MySql
 
 ## 5. Create Data and Models folders
 
+![image](https://github.com/user-attachments/assets/e52950f3-062a-4d8f-a358-1d2c3cd33bb4)
 
 ## 6. Create Employee data model
 
@@ -125,7 +135,6 @@ namespace BlazorMySQLMinimalAPI.Models
     }
 }
 ```
-
 
 ## 7. Create ApplicationDbContext
 
@@ -368,8 +377,6 @@ app.Run();
     }
 }
 ```
-
-
 
 ## 10. Modify appsettings.json to include the database string connection
 
