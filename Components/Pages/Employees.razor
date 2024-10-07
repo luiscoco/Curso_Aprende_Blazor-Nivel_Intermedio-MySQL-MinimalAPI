@@ -1,0 +1,108 @@
+﻿@page "/employees"
+@using BlazorMySQLMinimalAPI.Models
+@inject HttpClient Http
+
+<div class="container mt-4">
+    <h3 class="text-center text-primary">Employee Management</h3>
+
+    <!-- Button to Refresh Employee List -->
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" @onclick="LoadEmployees">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+    </div>
+
+    <!-- Employee List -->
+    <ul class="list-group mb-4">
+        @foreach (var employee in employees)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong class="text-success">@employee.Name</strong>
+                    <span class="text-muted">- @employee.Position</span>
+                    <span class="badge bg-info text-dark">Salary: $@employee.Salary</span>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-warning me-2" @onclick="() => EditEmployee(employee.Id)">
+                        <i class="bi bi-pencil"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteEmployee(employee.Id)">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <!-- Form to Add or Edit Employee -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">@(isEditing ? "Edit Employee" : "Add Employee")</h4>
+        </div>
+        <div class="card-body">
+            <EditForm Model="currentEmployee" OnValidSubmit="SaveEmployee" class="row g-3">
+                <div class="col-md-4">
+                    <label for="name" class="form-label">Name</label>
+                    <InputText id="name" class="form-control" @bind-Value="currentEmployee.Name" />
+                </div>
+                <div class="col-md-4">
+                    <label for="position" class="form-label">Position</label>
+                    <InputText id="position" class="form-control" @bind-Value="currentEmployee.Position" />
+                </div>
+                <div class="col-md-4">
+                    <label for="salary" class="form-label">Salary</label>
+                    <InputNumber id="salary" class="form-control" @bind-Value="currentEmployee.Salary" />
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Employee> employees = new();
+    private Employee currentEmployee = new();
+    private bool isEditing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEmployees();
+    }
+
+    private async Task LoadEmployees()
+    {
+        employees = await Http.GetFromJsonAsync<List<Employee>>("api/employees");
+    }
+
+    private async Task SaveEmployee()
+    {
+        if (isEditing)
+        {
+            await Http.PutAsJsonAsync($"api/employees/{currentEmployee.Id}", currentEmployee);
+        }
+        else
+        {
+            await Http.PostAsJsonAsync("api/employees", currentEmployee);
+        }
+
+        await LoadEmployees();
+        currentEmployee = new Employee();
+        isEditing = false;
+    }
+
+    private async Task EditEmployee(int id)
+    {
+        currentEmployee = await Http.GetFromJsonAsync<Employee>($"api/employees/{id}");
+        isEditing = true;
+    }
+
+    private async Task DeleteEmployee(int id)
+    {
+        await Http.DeleteAsync($"api/employees/{id}");
+        await LoadEmployees();
+    }
+}
